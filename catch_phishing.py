@@ -118,9 +118,9 @@ def callback(message, context):
                     "[+] Potential : "
                     "{} (score={})".format(colored(domain, attrs=['underline']), score))
 
-            if score >= 75:
+            if score >= 0:
                 with open(log_suspicious, 'a') as f:
-                    f.write("{}\n".format(domain))
+                    f.write("{}:{}\n".format(domain,score))
 
 
 certstream.listen_for_events(callback)
