@@ -9,6 +9,7 @@
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
+import json
 import re
 import certstream
 import tqdm
@@ -35,9 +36,11 @@ def score_domain(domain):
         int: the score of `domain`.
     """
     score = 0
+    tags = []
     for t in tlds:
         if domain.endswith(t):
             score += 20
+            tags.append("has suspicious tld")
 
     # Remove initial '*.' for wildcard certificates bug
     if domain.startswith('*.'):
@@ -58,11 +61,13 @@ def score_domain(domain):
         # ie. detect fake .com (ie. *.com-account-management.info)
         if words_in_domain[0] in ['com', 'net', 'org']:
             score += 10
+            tags.append("has suspicious/fake com/net/org in domain")
 
     # Testing keywords
     for word in keywords.keys():
         if word in domain:
             score += keywords[word]
+            tags.append("has keyword " + word)
 
     # Higer entropy is kind of suspicious
     score += int(round(entropy.shannon_entropy(domain)*50))
@@ -73,16 +78,20 @@ def score_domain(domain):
         for word in [w for w in words_in_domain if w not in ['email', 'mail', 'cloud']]:
             if distance(str(word), str(key)) == 1:
                 score += 70
+                tags.append("short distance for strong keyword: " + word)
+
 
     # Lots of '-' (ie. www.paypal-datacenter.com-acccount-alert.com)
     if 'xn--' not in domain and domain.count('-') >= 4:
         score += domain.count('-') * 3
+        tags.append("many '-' occurrences in the domain")
 
     # Deeply nested subdomains (ie. www.paypal.com.security.accountupdate.gq)
     if domain.count('.') >= 3:
         score += domain.count('.') * 3
+        tags.append("deeply nested subdomains")
 
-    return score
+    return [score, tags]
 
 
 def callback(message, context):
@@ -95,11 +104,12 @@ def callback(message, context):
 
         for domain in all_domains:
             pbar.update(1)
-            score = score_domain(domain.lower())
+            score, tags = score_domain(domain.lower())
 
             # If issued from a free CA = more suspicious
             if "Let's Encrypt" in message['data']['chain'][0]['subject']['aggregated']:
                 score += 10
+                tags.append("lets encrypt certificate")
 
             if score >= 100:
                 tqdm.tqdm.write(
@@ -120,7 +130,7 @@ def callback(message, context):
 
             if score >= 0:
                 with open(log_suspicious, 'a') as f:
-                    f.write("{}:{}\n".format(domain,score))
+                    f.write("{}:{}:{}\n".format(domain,score,json.dumps(tags)))
 
 
 certstream.listen_for_events(callback)
