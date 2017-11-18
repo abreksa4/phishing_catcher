@@ -24,6 +24,7 @@ log_suspicious = 'suspicious_domains.log'
 
 pbar = tqdm.tqdm(desc='certificate_update', unit='cert')
 
+
 def score_domain(domain):
     """Score `domain`.
 
@@ -67,19 +68,18 @@ def score_domain(domain):
     for word in keywords.keys():
         if word in domain:
             score += keywords[word]
-            tags.append("has keyword " + word)
+            tags.append("has keyword: " + word)
 
     # Higer entropy is kind of suspicious
-    score += int(round(entropy.shannon_entropy(domain)*50))
+    score += int(round(entropy.shannon_entropy(domain) * 50))
 
     # Testing Levenshtein distance for strong keywords (>= 70 points) (ie. paypol)
-    for key in [k for (k,s) in keywords.items() if s >= 70]:
+    for key in [k for (k, s) in keywords.items() if s >= 70]:
         # Removing too generic keywords (ie. mail.domain.com)
         for word in [w for w in words_in_domain if w not in ['email', 'mail', 'cloud']]:
             if distance(str(word), str(key)) == 1:
                 score += 70
                 tags.append("short distance for strong keyword: " + word)
-
 
     # Lots of '-' (ie. www.paypal-datacenter.com-acccount-alert.com)
     if 'xn--' not in domain and domain.count('-') >= 4:
@@ -130,7 +130,7 @@ def callback(message, context):
 
             if score >= 0:
                 with open(log_suspicious, 'a') as f:
-                    f.write("{}:{}:{}\n".format(domain,score,json.dumps(tags)))
+                    f.write("{}:{}:{}\n".format(domain, score, json.dumps(tags)))
 
 
 certstream.listen_for_events(callback)
