@@ -51,7 +51,7 @@ def score_domain(domain):
     try:
         res = get_tld(domain, as_object=True, fail_silently=True, fix_protocol=True)
         domain = '.'.join([res.subdomain, res.domain])
-    except:
+    except Exception:
         pass
 
     words_in_domain = re.split("\W+", domain)
@@ -133,4 +133,5 @@ def callback(message, context):
                     f.write("{}:{}:{}\n".format(domain, score, json.dumps(tags)))
 
 
-certstream.listen_for_events(callback)
+if __name__ == '__main__':
+    certstream.listen_for_events(callback)
