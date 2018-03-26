@@ -1,5 +1,5 @@
 keywords = {
-# Generic suspicious
+    # Generic suspicious
     'login': 25,
     'log-in': 25,
     'sign-in': 25,
@@ -36,17 +36,16 @@ keywords = {
     'online': 10,
     'safe': 10,
     'form': 10,
-    'authorise':25,
-    
+    'authorise': 25,
 
-# Apple iCloud
+    # Apple iCloud
     'appleid': 70,
     'icloud': 60,
     'iforgot': 60,
     'itunes': 50,
-    'apple':30,
+    'apple': 30,
 
-# Email
+    # Email
     'outlook': 60,
     'office365': 50,
     'microsoft': 60,
@@ -56,17 +55,15 @@ keywords = {
     'hotmail': 60,
     'gmail': 70,
     'google': 70,
-    'outlook': 60,
     'yahoo': 60,
-    'google': 60,
     'yandex': 60,
 
-# Social Media
+    # Social Media
     'twitter': 60,
     'facebook': 60,
     'tumblr': 60,
     'reddit': 60,
-    'youtube': 40, # some false positives
+    'youtube': 40,  # some false positives
     'linkedin': 60,
     'instagram': 60,
     'flickr': 60,
@@ -75,15 +72,15 @@ keywords = {
     'signal': 60,
     'wechat': 60,
     'weibo': 60,
-    'QQ':60,
-    'Qzone':60,
-    
-# Cryptocurrency
+    'QQ': 60,
+    'Qzone': 60,
+
+    # Cryptocurrency
     'localbitcoin': 70,
     'poloniex': 60,
     'coinhive': 70,
     'bithumb': 60,
-    'kraken': 50, # some false positives
+    'kraken': 50,  # some false positives
     'bitstamp': 60,
     'bittrex': 60,
     'blockchain': 70,
@@ -95,7 +92,7 @@ keywords = {
     'bitconnect': 60,
     'coinsbank': 60,
 
-# Bank/money
+    # Bank/money
     'paypal': 70,
     'moneygram': 60,
     'westernunion': 60,
@@ -114,24 +111,22 @@ keywords = {
     'ApplePay': 50,
     'Barclays': 50,
     'Natwest': 50,
-    
-# Ecommerce
+
+    # Ecommerce
     'amazon': 60,
     'overstock': 60,
     'alibaba': 60,
     'aliexpress': 60,
     'leboncoin': 70,
 
-# Other
+    # Other
     'netflix': 70,
     'skype': 60,
     'github': 60,
     'hmrc': 80,
-    
 
-# Miscellaneous & SE tricks
+    # Miscellaneous & SE tricks
     'cgi-bin': 50,
-    '.com-': 20,
     '-com.': 20,
     '.net-': 20,
     '.org-': 20,
@@ -205,5 +200,4 @@ tlds = [
     '.today',
     '.zm',
     '.fi',
-    
-]  
+]
