@@ -14,15 +14,17 @@ import re
 import certstream
 import tqdm
 import entropy
+import datetime
+import uuid
+import time
 from tld import get_tld
 from Levenshtein import distance
 from termcolor import colored, cprint
 
 from suspicious import keywords, tlds
 
-log_suspicious = 'suspicious_domains.log'
-
 pbar = tqdm.tqdm(desc='certificate_update', unit='cert')
+uuid_str = str(uuid.uuid4())
 
 
 def score_domain(domain):
@@ -129,8 +131,11 @@ def callback(message, context):
                     "{} (score={})".format(colored(domain, attrs=['underline']), score))
 
             if score >= 0:
-                with open(log_suspicious, 'a') as f:
-                    f.write("{}:{}:{}\n".format(domain, score, json.dumps(tags)))
+                with open("data/pc_{}.{}.{}".format(uuid_str, datetime.datetime.now().strftime("%Y-%m-%d"), "log"),
+                          'a') as f:
+                    f.write("{}\n".format(
+                        json.dumps({"tags": tags, "domain": domain, "score": score, "time": time.time(),
+                                    "raw_data": message})))
 
 
 if __name__ == '__main__':
