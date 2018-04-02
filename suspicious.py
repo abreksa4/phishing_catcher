@@ -38,6 +38,7 @@ keywords = {
     'safe': 10,
     'form': 10,
     'authorise': 25,
+    'swift': 25,
 
     # Apple iCloud
     'appleid': 70,
@@ -45,6 +46,8 @@ keywords = {
     'iforgot': 60,
     'itunes': 50,
     'apple': 30,
+    'applesupport': 50,
+    'imessage': 60,
 
     # Email
     'outlook': 60,
@@ -58,6 +61,7 @@ keywords = {
     'google': 70,
     'yahoo': 60,
     'yandex': 60,
+    'googlemail': 60,
 
     # Social Media
     'twitter': 60,
@@ -75,6 +79,8 @@ keywords = {
     'weibo': 60,
     'QQ': 60,
     'Qzone': 60,
+    'discordapp': 60,
+    'telegram': 70,
 
     # Cryptocurrency
     'localbitcoin': 70,
@@ -92,6 +98,10 @@ keywords = {
     'bitfinex': 60,
     'bitconnect': 60,
     'coinsbank': 60,
+    'litecoin': 60,
+    'ethereum': 60,
+    'monero': 60,
+    'zcash': 60,
 
     # Bank/money
     'paypal': 70,
@@ -112,6 +122,9 @@ keywords = {
     'ApplePay': 50,
     'Barclays': 50,
     'Natwest': 50,
+    'applePay': 50,
+    'natwest': 50,
+    'squareup': 50,
 
     # Ecommerce
     'amazon': 60,
@@ -119,6 +132,7 @@ keywords = {
     'alibaba': 60,
     'aliexpress': 60,
     'leboncoin': 70,
+    'banggood': 60,
 
     # Other
     'netflix': 70,
@@ -201,4 +215,7 @@ tlds = [
     '.today',
     '.zm',
     '.fi',
+    '.trade',
+    '.live',
+    '.world',
 ]
