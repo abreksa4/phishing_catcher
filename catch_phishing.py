@@ -107,6 +107,7 @@ def callback(message, context):
         for domain in all_domains:
             pbar.update(1)
             score, tags = score_domain(domain.lower())
+            score_range = 0
 
             # If issued from a free CA = more suspicious
             if "Let's Encrypt" in message['data']['chain'][0]['subject']['aggregated']:
@@ -117,25 +118,31 @@ def callback(message, context):
                 tqdm.tqdm.write(
                     "[!] Suspicious: "
                     "{} (score={})".format(colored(domain, 'red', attrs=['underline', 'bold']), score))
+                score_range = 100
             elif score >= 90:
                 tqdm.tqdm.write(
                     "[!] Suspicious: "
                     "{} (score={})".format(colored(domain, 'red', attrs=['underline']), score))
+                score_range = 90
             elif score >= 80:
                 tqdm.tqdm.write(
                     "[!] Likely    : "
                     "{} (score={})".format(colored(domain, 'yellow', attrs=['underline']), score))
+                score_range = 80
             elif score >= 65:
                 tqdm.tqdm.write(
                     "[+] Potential : "
                     "{} (score={})".format(colored(domain, attrs=['underline']), score))
-
-            if score >= 0:
-                with open("data/pc_{}.{}.{}".format(uuid_str, datetime.datetime.now().strftime("%Y-%m-%d-%H"), "log"),
-                          'a') as f:
-                    f.write("{}\n".format(
-                        json.dumps({"tags": tags, "domain": domain, "score": score, "time": time.time(),
-                                    "raw_data": message})))
+                score_range = 65
+            else:
+                score_range = 0
+            with open(
+                    "data/pc_{}.{}.{}.{}".format(uuid_str, datetime.datetime.now().strftime("%Y-%m-%d-%H"), score_range,
+                                                 "log"),
+                    'a') as f:
+                f.write("{}\n".format(
+                    json.dumps({"tags": tags, "domain": domain, "score": score, "time": time.time(),
+                                "raw_data": message})))
 
 
 if __name__ == '__main__':
