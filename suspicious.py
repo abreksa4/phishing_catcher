@@ -17,6 +17,7 @@ keywords = {
     'authentication': 25,
     'authenticate': 25,
     'authorize': 25,
+    'auth': 25,
     'wallet': 25,
     'alert': 25,
     'purchase': 25,
