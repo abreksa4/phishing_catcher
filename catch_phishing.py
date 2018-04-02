@@ -131,7 +131,7 @@ def callback(message, context):
                     "{} (score={})".format(colored(domain, attrs=['underline']), score))
 
             if score >= 0:
-                with open("data/pc_{}.{}.{}".format(uuid_str, datetime.datetime.now().strftime("%Y-%m-%d"), "log"),
+                with open("data/pc_{}.{}.{}".format(uuid_str, datetime.datetime.now().strftime("%Y-%m-%d-%H"), "log"),
                           'a') as f:
                     f.write("{}\n".format(
                         json.dumps({"tags": tags, "domain": domain, "score": score, "time": time.time(),
